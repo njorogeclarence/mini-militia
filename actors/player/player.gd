@@ -25,6 +25,7 @@ const FACING_EPSILON: float = 0.05
 @export_range(0.0, 60.0, 0.5) var aim_smoothing: float = 0.0
 
 @onready var jetpack: JetpackComponent = %JetpackComponent
+@onready var weapon: WeaponComponent = %WeaponComponent
 @onready var _input_source: InputSource = %InputSource
 @onready var _visuals: Node2D = %Visuals
 @onready var _weapon_pivot: Node2D = %WeaponPivot
@@ -50,6 +51,14 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	_update_aim(delta)
+
+	# Weapon ticks after aiming so the muzzle position matches this frame's pose.
+	weapon.tick(
+		delta,
+		_input_source.fire_held,
+		_muzzle.global_position,
+		_input_source.aim_direction
+	)
 
 
 # --- Public API (used by weapons / HUD / future network layer) -------------

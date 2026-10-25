@@ -1,8 +1,12 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="PackedScene" path="res://actors/player/player.tscn" id="1_player"]
 [ext_resource type="Script" path="res://levels/level.gd" id="2_level"]
 [ext_resource type="Script" path="res://ui/fuel_bar.gd" id="3_fuelbar"]
+[ext_resource type="Script" path="res://weapons/projectile_pool.gd" id="4_pool"]
+[ext_resource type="PackedScene" path="res://weapons/projectile.tscn" id="5_projectile"]
+[ext_resource type="PackedScene" path="res://actors/dummy/target_dummy.tscn" id="6_dummy"]
+[ext_resource type="Script" path="res://ui/ammo_label.gd" id="7_ammolabel"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_horizontal"]
 size = Vector2(1600, 40)
@@ -16,8 +20,25 @@ size = Vector2(240, 20)
 [node name="Level" type="Node2D"]
 script = ExtResource("2_level")
 
+[node name="ProjectilePool" type="Node" parent="."]
+script = ExtResource("4_pool")
+projectile_scene = ExtResource("5_projectile")
+prewarm_count = 48
+
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector2(200, 400)
+
+[node name="DummyA" parent="." instance=ExtResource("6_dummy")]
+position = Vector2(700, 554)
+
+[node name="DummyB" parent="." instance=ExtResource("6_dummy")]
+position = Vector2(1150, 554)
+
+[node name="DummyC" parent="." instance=ExtResource("6_dummy")]
+position = Vector2(1000, 294)
+
+[node name="DummyD" parent="." instance=ExtResource("6_dummy")]
+position = Vector2(500, 414)
 
 [node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(800, 600)
@@ -119,3 +140,11 @@ offset_bottom = 36.0
 value = 100.0
 show_percentage = false
 script = ExtResource("3_fuelbar")
+
+[node name="AmmoLabel" type="Label" parent="HUD"]
+offset_left = 20.0
+offset_top = 44.0
+offset_right = 320.0
+offset_bottom = 70.0
+text = "Weapon"
+script = ExtResource("7_ammolabel")

@@ -1,9 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://actors/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://actors/player/input/local_input_source.gd" id="2_input"]
 [ext_resource type="Script" path="res://actors/player/components/jetpack_component.gd" id="3_jetpack"]
 [ext_resource type="Texture2D" path="res://icon.svg" id="4_icon"]
+[ext_resource type="Script" path="res://weapons/weapon_component.gd" id="5_weapon"]
+[ext_resource type="Resource" path="res://weapons/data/rifle.tres" id="6_rifle"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_player"]
 radius = 12.0
@@ -72,6 +74,11 @@ script = ExtResource("2_input")
 [node name="JetpackComponent" type="Node" parent="."]
 unique_name_in_owner = true
 script = ExtResource("3_jetpack")
+
+[node name="WeaponComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_weapon")
+weapon_data = ExtResource("6_rifle")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position_smoothing_enabled = true
