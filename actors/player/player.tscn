@@ -1,0 +1,77 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://actors/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://actors/player/input/local_input_source.gd" id="2_input"]
+[ext_resource type="Script" path="res://actors/player/components/jetpack_component.gd" id="3_jetpack"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="4_icon"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_player"]
+radius = 12.0
+height = 40.0
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_thrust"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+spread = 20.0
+initial_velocity_min = 120.0
+initial_velocity_max = 180.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.05
+scale_max = 0.1
+color = Color(1, 0.55, 0.1, 1)
+
+[node name="Player" type="CharacterBody2D"]
+collision_mask = 1
+collision_layer = 2
+floor_snap_length = 6.0
+script = ExtResource("1_player")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_player")
+
+[node name="Visuals" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="BodySprite" type="Sprite2D" parent="Visuals"]
+scale = Vector2(0.25, 0.3)
+texture = ExtResource("4_icon")
+
+[node name="JetpackSprite" type="Sprite2D" parent="Visuals"]
+modulate = Color(0.5, 0.5, 0.55, 1)
+position = Vector2(-14, 0)
+scale = Vector2(0.1, 0.2)
+texture = ExtResource("4_icon")
+
+[node name="ThrustParticles" type="GPUParticles2D" parent="Visuals"]
+unique_name_in_owner = true
+position = Vector2(-14, 14)
+emitting = false
+amount = 24
+texture = ExtResource("4_icon")
+lifetime = 0.4
+local_coords = false
+process_material = SubResource("ParticleProcessMaterial_thrust")
+
+[node name="WeaponPivot" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="WeaponSprite" type="Sprite2D" parent="WeaponPivot"]
+modulate = Color(0.15, 0.15, 0.2, 1)
+position = Vector2(20, 0)
+scale = Vector2(0.25, 0.06)
+texture = ExtResource("4_icon")
+
+[node name="Muzzle" type="Marker2D" parent="WeaponPivot"]
+unique_name_in_owner = true
+position = Vector2(38, 0)
+
+[node name="InputSource" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_input")
+
+[node name="JetpackComponent" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_jetpack")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
